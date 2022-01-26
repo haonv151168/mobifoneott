@@ -1,0 +1,3 @@
+rootProject.name = "MobifoneOTT"
+include ':app'
+include ':mobifonecall'
