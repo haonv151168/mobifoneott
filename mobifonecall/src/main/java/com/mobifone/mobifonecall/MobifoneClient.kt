@@ -68,7 +68,6 @@ object MobifoneClient {
                 BroadcastEvent.Type.CONFERENCE_TERMINATED -> {
                     endCall()
                     callListener?.onSignalingStateChange(Config.EVENT_TERMINATED, null)
-                    LocalBroadcastManager.getInstance(ContextHolder.context).unregisterReceiver(broadcastReceiver)
                 }
             }
         }
@@ -77,10 +76,12 @@ object MobifoneClient {
     fun connectServer() {
         socket.connect()
 
-        if (socket.connected()) {
+        socket.on(Socket.EVENT_CONNECT) {
             Log.e("MobifoneClient", "onConnect in plugin")
             mobifoneHelperListener?.onConnectionConnect()
-        } else {
+        }
+
+        socket.on(Socket.EVENT_CONNECT_ERROR) {
             Log.e("MobifoneClient", "onDisconnect in plugin")
             mobifoneHelperListener?.onConnectionError()
         }
@@ -182,6 +183,7 @@ object MobifoneClient {
     }
 
     fun endCall() {
+        Log.e("MobifoneClient", "endCall")
         socket.emit("EndCall")
     }
 

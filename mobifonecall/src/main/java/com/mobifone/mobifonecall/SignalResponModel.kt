@@ -24,13 +24,13 @@ class Factory {
         private fun createDataResponseModel(json: JSONObject): SignalResponModel.DataResponModel {
             val data = SignalResponModel.DataResponModel()
             data.request_id = json.getString("request_id")
-            data.room_id = json.getString("room_id")
-            data.from_user = json.getString("from_user")
-            data.from_user_socket = json.getString("from_user_socket")
-            data.to_user_socket = json.getString("to_user_socket")
-            data.to_user = json.getString("to_user")
-            data.is_hotline = json.getString("is_hotline")
-            data.to_hotline = json.getString("to_hotline")
+            if (json.has("room_id"))  data.room_id = json.getString("room_id")
+            if (json.has("from_user"))  data.from_user = json.getString("from_user")
+            if (json.has("from_user_socket"))  data.from_user_socket = json.getString("from_user_socket")
+            if (json.has("to_user_socket"))  data.to_user_socket = json.getString("to_user_socket")
+            if (json.has("to_user"))  data.to_user = json.getString("to_user")
+            if (json.has("is_hotline"))  data.is_hotline = json.getString("is_hotline")
+            if (json.has("to_hotline"))  data.to_hotline = json.getString("to_hotline")
             return data
         }
 
@@ -38,7 +38,7 @@ class Factory {
             val data = SignalResponModel()
             data.r = json.getInt("r")
             data.data = createDataResponseModel(json.getJSONObject("data"))
-            data.error = json.getString("error")
+            if (json.has("error"))  data.error = json.getString("error")
             return data
         }
     }
